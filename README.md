@@ -5,6 +5,6 @@
 У меня на аук все поставилось: https://fragment.com/username/pripisnoy  
 можете купить
 
-| @ton/core        | 0.60.1    |
-| @ton/ton         | 15.2.1    |
+| @ton/core        | 0.60.1    |  
+| @ton/ton         | 15.2.1    |  
 | dotenv           | 16.5.0    |
