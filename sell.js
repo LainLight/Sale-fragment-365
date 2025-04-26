@@ -7,7 +7,7 @@ const DURATION = 31536000; // 1 год я хз это что в секундах
 const MNEMONIC = "твоя сидка сколько там слов шесть семь восемь и так далее пон".split(" "); //p.s. wallet v4
 const NFT_ADDRESS = "EQAherwvqM6iLM2vMCmNPnVmc6YlmBtnyLxvtPaj6MVZf5H9"; // адрес нфт типа
 // как отсюда https://tonviewer.com/EQAherwvqM6iLM2vMCmNPnVmc6YlmBtnyLxvtPaj6MVZf5H9 пон
-const PRICE = toNano("500"); // ну прайс пон 500 TON
+const PRICE = toNano("500"); // ну прайс пон 500 TON 
 
 async function main() {
     const client = new TonClient({
