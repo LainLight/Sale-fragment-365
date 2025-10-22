@@ -2,6 +2,18 @@
   "name": "sell-fragment",
   "version": "1.0.0",
   "description": "Продажа Telegram юзернеймов через Fragment на TON с длительностью 365 дней (1 год)",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "sell": "node sell.js"
+  },
+  "dependencies": {
+    "@ton/core": "0.60.1",
+    "@ton/ton": "15.2.1",
+    "@ton/crypto": "3.2.0",
+    "dotenv": "16.5.0",
+    "express": "4.19.2"
+  },
   "keywords": [
     "ton",
     "fragment",
@@ -24,3 +36,4 @@
     "username marketplace",
     "crypto auction"
   ]
+}
