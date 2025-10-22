@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TON NFT Sale</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <main class="container">
+        <header class="hero">
+            <h1>Продажа NFT через Fragment</h1>
+            <p>Заполни параметры кошелька и продажи, чтобы запустить транзакцию прямо из браузера.</p>
+        </header>
+
+        <form id="sale-form" class="card" autocomplete="off">
+            <section class="section">
+                <h2>Подключение к TON</h2>
+                <label class="field">
+                    <span>Endpoint</span>
+                    <input type="text" name="endpoint" placeholder="https://toncenter.com/api/v2/jsonRPC" />
+                </label>
+                <label class="field">
+                    <span>API Key (если нужен)</span>
+                    <input type="text" name="apiKey" placeholder="Ключ Toncenter" />
+                </label>
+            </section>
+
+            <section class="section">
+                <h2>Кошелёк</h2>
+                <label class="field">
+                    <span>Мнемоника (через пробел)</span>
+                    <textarea name="mnemonic" rows="3" placeholder="Введите сид фразу">твоя сидка сколько там слов шесть семь восемь и так далее пон</textarea>
+                </label>
+            </section>
+
+            <section class="section">
+                <h2>Настройки продажи</h2>
+                <div class="grid">
+                    <label class="field">
+                        <span>Адрес NFT</span>
+                        <input type="text" name="nftAddress" value="EQAherwvqM6iLM2vMCmNPnVmc6YlmBtnyLxvtPaj6MVZf5H9" required />
+                    </label>
+                    <label class="field">
+                        <span>Цена (TON)</span>
+                        <input type="number" name="priceTon" min="0" step="0.000000001" value="500" required />
+                    </label>
+                    <label class="field">
+                        <span>Макс. ставка (TON)</span>
+                        <input type="number" name="maxBidTon" min="0" step="0.000000001" placeholder="По умолчанию = цена" />
+                    </label>
+                    <label class="field">
+                        <span>Размер шага ставки</span>
+                        <input type="number" name="minBidStep" min="0" max="255" value="5" />
+                    </label>
+                    <label class="field">
+                        <span>Продление при новой ставке (сек)</span>
+                        <input type="number" name="minExtendTime" min="0" value="3600" />
+                    </label>
+                    <label class="field">
+                        <span>Длительность продажи (сек)</span>
+                        <input type="number" name="duration" min="0" value="31536000" />
+                    </label>
+                    <label class="field">
+                        <span>Сумма перевода для комиссии (TON)</span>
+                        <input type="number" name="transferTon" min="0" step="0.000000001" value="0.1" />
+                    </label>
+                    <label class="field">
+                        <span>Query ID</span>
+                        <input type="number" name="queryId" min="0" value="13" />
+                    </label>
+                    <label class="field">
+                        <span>Адрес получателя средств</span>
+                        <input type="text" name="beneficiaryAddress" placeholder="По умолчанию — адрес кошелька" />
+                    </label>
+                </div>
+            </section>
+
+            <footer class="actions">
+                <button type="submit" id="submit-btn">Выставить на продажу</button>
+            </footer>
+        </form>
+
+        <section id="result" class="card hidden" aria-live="polite"></section>
+    </main>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
