@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Fragment Sale Helper</title>
+        <link rel="stylesheet" href="/styles.css" />
+    </head>
+    <body>
+        <main class="container">
+            <h1>Fragment Sale Helper</h1>
+            <p class="note">
+                Используйте только если понимаете, что делаете. Данные сид-фразы и ключей не
+                сохраняются, но форма отправляет их на локальный сервер Node.js.
+            </p>
+            <form id="sale-form" class="card">
+                <section class="fieldset">
+                    <h2>TON RPC</h2>
+                    <label class="field">
+                        <span>Endpoint</span>
+                        <input type="url" name="endpoint" value="https://toncenter.com/api/v2/jsonRPC" required />
+                    </label>
+                    <label class="field">
+                        <span>API Key (опционально)</span>
+                        <input type="text" name="apiKey" placeholder="042d5a..." />
+                    </label>
+                </section>
+
+                <section class="fieldset">
+                    <h2>Кошелёк</h2>
+                    <label class="field">
+                        <span>Mnemonic (сид-фраза, через пробел)</span>
+                        <textarea name="mnemonic" rows="3" placeholder="word1 word2 word3 ..." required></textarea>
+                    </label>
+                    <label class="field">
+                        <span>Beneficiary address (опционально)</span>
+                        <input type="text" name="beneficiaryAddress" placeholder="Адрес кошелька получателя" />
+                    </label>
+                </section>
+
+                <section class="fieldset">
+                    <h2>Параметры продажи</h2>
+                    <label class="field">
+                        <span>NFT / Username адрес</span>
+                        <input type="text" name="nftAddress" placeholder="EQ..." required />
+                    </label>
+                    <label class="field">
+                        <span>Цена, TON</span>
+                        <input type="number" min="0" step="0.01" name="priceTon" placeholder="500" required />
+                    </label>
+                    <label class="field">
+                        <span>Комиссия за вызов, TON</span>
+                        <input type="number" min="0" step="0.01" name="commissionTon" value="0.1" />
+                    </label>
+                    <label class="field">
+                        <span>Длительность продажи (сек)</span>
+                        <input type="number" min="0" name="duration" value="31536000" />
+                    </label>
+                    <label class="field">
+                        <span>Min bid step (0-255)</span>
+                        <input type="number" min="0" max="255" name="minBidStep" value="5" />
+                    </label>
+                    <label class="field">
+                        <span>Min extend time (сек)</span>
+                        <input type="number" min="0" name="minExtendTime" value="3600" />
+                    </label>
+                    <label class="field">
+                        <span>Query ID (64-bit)</span>
+                        <input type="number" min="0" name="queryId" value="13" />
+                    </label>
+                </section>
+
+                <button type="submit" class="submit">Выставить на продажу</button>
+            </form>
+
+            <section class="status">
+                <h2>Статус</h2>
+                <div id="status-message">Форма ещё не отправлялась.</div>
+                <pre id="status-details" hidden></pre>
+            </section>
+        </main>
+
+        <script>
+            const form = document.getElementById("sale-form");
+            const statusMessage = document.getElementById("status-message");
+            const statusDetails = document.getElementById("status-details");
+
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+                statusMessage.textContent = "Отправка транзакции...";
+                statusDetails.hidden = true;
+                statusDetails.textContent = "";
+
+                const formData = new FormData(form);
+                const payload = Object.fromEntries(formData.entries());
+
+                try {
+                    const response = await fetch("/api/sell", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok || !data.success) {
+                        throw new Error(data.message || "Неизвестная ошибка");
+                    }
+
+                    statusMessage.textContent = "Успех! NFT отправлено на продажу.";
+                    statusDetails.hidden = false;
+                    statusDetails.textContent = JSON.stringify(data.result, null, 2);
+                } catch (error) {
+                    statusMessage.textContent = `Ошибка: ${error.message}`;
+                    statusDetails.hidden = false;
+                    statusDetails.textContent = "Проверьте консоль сервера для подробностей.";
+                }
+            });
+        </script>
+    </body>
+</html>
